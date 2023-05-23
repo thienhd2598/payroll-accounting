@@ -10,7 +10,7 @@ export class Position {
     name: string;
 
     @Column()
-    phone: string;
+    allowced: number;
 
     @CreateDateColumn()
     created_at: Date;

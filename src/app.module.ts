@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { TasksModule } from './tasks/tasks.module';
+// import { TasksModule } from './tasks/tasks.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -18,7 +18,7 @@ import { AdvanceSalaryModule } from './advance-salary/advance-salary.module';
       envFilePath: [`.env.stage.${process.env.STAGE}`],
       validationSchema: configValidationSchema,
     }),
-    TasksModule,
+    // TasksModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

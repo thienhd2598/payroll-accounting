@@ -11,3 +11,4 @@ import { DepartmentService } from './department.service';
 })
 
 export class DepartmentModule {}
+

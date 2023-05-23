@@ -10,7 +10,7 @@ export class IncomeTax {
     name: string;
 
     @Column()
-    phone: string;
+    rate: number;
 
     @CreateDateColumn()
     created_at: Date;

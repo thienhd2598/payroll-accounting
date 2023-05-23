@@ -1,8 +1,11 @@
 import { Exclude } from 'class-transformer';
-import { Column, Entity, ManyToOne, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, OneToMany, JoinColumn, OneToOne } from 'typeorm';
 import { Department } from '../department/department.entity';
 import { Position } from '../position/position.entity';
 import { IncomeTax } from '../income-tax/income-tax.entity';
+import { AdvanceSalary } from 'src/advance-salary/advance-salary.entity';
+import { TimeKeeping } from 'src/time-keeping/time-keeping.entity';
+import { SalaryInformation } from 'src/salary-information/salary-information.entity';
 
 @Entity()
 export class Staff {
@@ -38,6 +41,16 @@ export class Staff {
     @ManyToOne((_type) => IncomeTax, (it) => it.staff, { eager: false })
     @Exclude({ toPlainOnly: true })
     income_tax: IncomeTax;
+
+    @OneToMany((_type) => AdvanceSalary, (as) => as.staff, { eager: true })
+    advance_salary: AdvanceSalary;
+
+    @OneToMany((_type) => TimeKeeping, (tk) => tk.staff, { eager: true })
+    time_keeping: TimeKeeping;
+
+    @OneToOne((_type) => SalaryInformation, (si) => si.staff, { eager: true })    
+    @JoinColumn()
+    salary_information: SalaryInformation;
 
     @CreateDateColumn()
     created_at: Date;
