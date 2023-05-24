@@ -34,13 +34,13 @@ export class SalaryInformationService {
     };
 
     async createSalaryInformation(createSalaryInformation: CreateSalaryInformationDto) {
-        const { month, year, work_days, work_hours, bonus_hours, bonus_hours_holiday, staffId } = createSalaryInformation;
+        const { salary_basic, work_day_standard, work_hours_standard, insurance_health_rate, insurance_social_rate, insurance_unemployment_rate, tax_personal, staffId } = createSalaryInformation;
 
         try {
             const staff = await this.staffRespository.findOne(staffId);
 
             const newSalaryInformation = this.salaryInformationRespository.create({
-                month, year, work_days, work_hours, bonus_hours, bonus_hours_holiday, staff
+                salary_basic, work_day_standard, work_hours_standard, insurance_health_rate, insurance_social_rate, insurance_unemployment_rate, tax_personal, staff
             });
 
             await this.salaryInformationRespository.save(newSalaryInformation);
@@ -60,7 +60,7 @@ export class SalaryInformationService {
 
     async updateSalaryInformation(id: string, updateSalaryInformation: CreateSalaryInformationDto) {
         try {
-            const { month, year, work_days, work_hours, bonus_hours, bonus_hours_holiday, staffId } = updateSalaryInformation;
+            const { salary_basic, work_day_standard, work_hours_standard, insurance_health_rate, insurance_social_rate, insurance_unemployment_rate, tax_personal, staffId } = updateSalaryInformation;
 
             const staff = await this.staffRespository.findOne(staffId);
 
@@ -72,12 +72,13 @@ export class SalaryInformationService {
                 throw new NotFoundException(`Không tìm thấy tham số lương ${id}`);
             }
 
-            salaryInformation.month = month;
-            salaryInformation.year = year;
-            salaryInformation.work_days = work_days;
-            salaryInformation.work_hours = work_hours;
-            salaryInformation.bonus_hours = bonus_hours;
-            salaryInformation.bonus_hours_holiday = bonus_hours_holiday;
+            salaryInformation.salary_basic = salary_basic;
+            salaryInformation.work_day_standard = work_day_standard;
+            salaryInformation.work_hours_standard = work_hours_standard;
+            salaryInformation.insurance_health_rate = insurance_health_rate;
+            salaryInformation.insurance_social_rate = insurance_social_rate;
+            salaryInformation.insurance_unemployment_rate = insurance_unemployment_rate;
+            salaryInformation.tax_personal = tax_personal;
             salaryInformation.staff = staff;            
 
             await this.salaryInformationRespository.save(salaryInformation);
