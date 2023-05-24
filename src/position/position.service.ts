@@ -31,11 +31,11 @@ export class PositionService {
     };
 
     async createPosition(createPositionDto: CreatePositionDto) {
-        const { name, allowced } = createPositionDto;
+        const { name, allowance } = createPositionDto;
 
         try {
             const newPosition = this.positionRespository.create({
-                name, allowced
+                name, allowance
             });
 
             await this.positionRespository.save(newPosition);
@@ -54,7 +54,7 @@ export class PositionService {
     }
 
     async updatePosition(id: string, updatePositionDto: CreatePositionDto) {
-        const { name, allowced } = updatePositionDto;
+        const { name, allowance } = updatePositionDto;
 
         try {
             const position = await this.positionRespository.findOne({
@@ -66,7 +66,7 @@ export class PositionService {
             }
 
             position.name = name;
-            position.allowced = allowced;
+            position.allowance = allowance;
 
             await this.positionRespository.save(position);
 

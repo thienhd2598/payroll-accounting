@@ -8,22 +8,25 @@ export class SalaryInformation {
     id: string;
 
     @Column()
-    month: number;
+    salary_basic: number;
 
     @Column()
-    year: number;
+    work_hours_standard: number;
 
     @Column()
-    work_days: number;
+    work_day_standard: number;
 
     @Column()
-    work_hours: number;
+    insurance_social_rate: number;
 
     @Column()
-    bonus_hours: number;
+    insurance_health_rate: number;
 
     @Column()
-    bonus_hours_holiday: number;
+    insurance_unemployment_rate: number;
+
+    @Column()
+    tax_personal: number;
 
     @CreateDateColumn()
     created_at: Date;

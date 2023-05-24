@@ -5,5 +5,5 @@ export class CreatePositionDto {
   name: string;
 
   @IsNumber()  
-  allowced: number;  
+  allowance: number;  
 }

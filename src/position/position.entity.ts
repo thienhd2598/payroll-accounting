@@ -10,7 +10,7 @@ export class Position {
     name: string;
 
     @Column()
-    allowced: number;
+    allowance: number;
 
     @CreateDateColumn()
     created_at: Date;
