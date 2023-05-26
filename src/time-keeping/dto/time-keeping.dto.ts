@@ -11,7 +11,7 @@ export class TimeKeepingDto {
     work_days: number;
     
     @IsNumber()
-    work_hours: number;
+    work_days_holiday: number;
     
     @IsNumber()
     bonus_hours: number;

@@ -26,7 +26,7 @@ export class PositionController {
     updatePosition(
         @Param('id') id: string,
         @Body() updatePosition: CreatePositionDto
-    ) {
+    ) {                
         return this.positionService.updatePosition(id, updatePosition);
     }
 

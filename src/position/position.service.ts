@@ -25,7 +25,7 @@ export class PositionService {
         } catch (error) {
             throw new HttpException({
                 status: HttpStatus.INTERNAL_SERVER_ERROR,
-                error: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
+                message: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
             }, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     };
@@ -48,7 +48,7 @@ export class PositionService {
         } catch (error) {
             throw new HttpException({
                 status: HttpStatus.INTERNAL_SERVER_ERROR,
-                error: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
+                message: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
             }, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
@@ -76,9 +76,11 @@ export class PositionService {
                 data: position
             }
         } catch (error) {
+            console.log({ error })
+
             throw new HttpException({
                 status: HttpStatus.INTERNAL_SERVER_ERROR,
-                error: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
+                message: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
             }, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }

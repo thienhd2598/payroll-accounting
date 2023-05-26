@@ -14,33 +14,44 @@ export class TimeKeepingService {
     ) { }
 
     async getAllTimeKeeping() {
-        try {
-            const timeKeepings = await this.timeKeepingRespository.findAndCount();
+        try {            
+            const timeKeepings = await this.timeKeepingRespository.find({
+                relations: ['staff']
+            });
+
+            const dataTimeKeepings = timeKeepings?.map(_sl => {
+                const { staff } = _sl || {};
+
+                return {
+                    ..._sl,
+                    staff
+                }
+            })
 
             return {
                 statusCode: 200,
                 message: 'Thành công',
                 data: {
-                    timeKeepings: timeKeepings?.[0] || [],
-                    total: timeKeepings?.[1] || 0
+                    timeKeepings: dataTimeKeepings || [],
+                    total: timeKeepings?.length || 0
                 }
             }
         } catch (error) {
             throw new HttpException({
                 status: HttpStatus.INTERNAL_SERVER_ERROR,
-                error: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
+                message: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
             }, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     };
 
     async createTimeKeeping(createTimeKeeping: TimeKeepingDto) {
-        const { month, year, work_days, work_hours, bonus_hours, bonus_hours_holiday, staffId } = createTimeKeeping;
+        const { month, year, work_days, work_days_holiday, bonus_hours, bonus_hours_holiday, staffId } = createTimeKeeping;
 
         try {
             const staff = await this.staffRespository.findOne(staffId);
 
             const newTimeKeeping = this.timeKeepingRespository.create({
-                month, year, work_days, work_hours, bonus_hours, bonus_hours_holiday, staff
+                month, year, work_days, work_days_holiday, bonus_hours, bonus_hours_holiday, staff
             });
 
             await this.timeKeepingRespository.save(newTimeKeeping);
@@ -53,14 +64,14 @@ export class TimeKeepingService {
         } catch (error) {
             throw new HttpException({
                 status: HttpStatus.INTERNAL_SERVER_ERROR,
-                error: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
+                message: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
             }, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
 
     async updateTimeKeeping(id: string, updateTimeKeeping: TimeKeepingDto) {
         try {
-            const { month, year, work_days, work_hours, bonus_hours, bonus_hours_holiday, staffId } = updateTimeKeeping;
+            const { month, year, work_days, work_days_holiday, bonus_hours, bonus_hours_holiday, staffId } = updateTimeKeeping;
 
             const staff = await this.staffRespository.findOne(staffId);
 
@@ -75,7 +86,7 @@ export class TimeKeepingService {
             timeKeeping.month = month;
             timeKeeping.year = year;
             timeKeeping.work_days = work_days;
-            timeKeeping.work_hours = work_hours;
+            timeKeeping.work_days_holiday = work_days_holiday;
             timeKeeping.bonus_hours = bonus_hours;
             timeKeeping.bonus_hours_holiday = bonus_hours_holiday;
             timeKeeping.staff = staff;            
@@ -90,7 +101,7 @@ export class TimeKeepingService {
         } catch (error) {
             throw new HttpException({
                 status: HttpStatus.INTERNAL_SERVER_ERROR,
-                error: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
+                message: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
             }, HttpStatus.INTERNAL_SERVER_ERROR)
         }
 

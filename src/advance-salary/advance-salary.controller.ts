@@ -6,7 +6,7 @@ import { AdvanceSalaryDto } from './dto/advance-salary.dto';
 export class AdvanceSalaryController {
     constructor(
         private advanceSalaryService: AdvanceSalaryService
-    ) {}
+    ) { }
 
     @Get()
     getAllAdvanceSalary() {
@@ -14,10 +14,12 @@ export class AdvanceSalaryController {
     };
 
     @Post('/create')
-    createAdvanceSalary(advanceSalaryDto: AdvanceSalaryDto) {
+    createAdvanceSalary(
+        @Body() advanceSalaryDto: AdvanceSalaryDto
+    ) {
         return this.advanceSalaryService.createAdvanceSalary(advanceSalaryDto);
     };
-    
+
     @Patch('/:id')
     updateAdvanceSalary(
         @Param('id') id: string,

@@ -18,20 +18,40 @@ export class StaffService {
 
     async getAllStaff() {
         try {
-            const staffs = await this.staffRespository.findAndCount();
+            const staffs: any = await this.staffRespository.find({                            
+                relations: ['department', 'income_tax', 'position']
+            })         
+            // const staffs: any = await this.staffRespository
+            //     .createQueryBuilder('staff')
+            //     .leftJoinAndSelect('staff.department', 'id')
+            //     .leftJoinAndSelect('staff.position', 'id')
+            // .find({                            
+            //     relations: ['department', 'income_tax', 'position']
+            // })         
+            
+            const dataStaffs = staffs?.map(_staff => {
+                const {department, income_tax, position} = _staff || {};
+
+                return {
+                    ..._staff,
+                    department,
+                    income_tax,
+                    position
+                }
+            })            
 
             return {
                 statusCode: 200,
                 message: 'Thành công',
                 data: {
-                    staffs: staffs?.[0] || [],
-                    total: staffs?.[1] || 0
+                    staffs: dataStaffs || [],
+                    total: staffs?.length || 0
                 }
             }
         } catch (error) {
             throw new HttpException({
                 status: HttpStatus.INTERNAL_SERVER_ERROR,
-                error: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
+                message: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
             }, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     };
@@ -72,7 +92,7 @@ export class StaffService {
         } catch (error) {
             throw new HttpException({
                 status: HttpStatus.INTERNAL_SERVER_ERROR,
-                error: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
+                message: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
             }, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
@@ -117,7 +137,7 @@ export class StaffService {
         } catch (error) {
             throw new HttpException({
                 status: HttpStatus.INTERNAL_SERVER_ERROR,
-                error: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
+                message: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
             }, HttpStatus.INTERNAL_SERVER_ERROR)
         }
 

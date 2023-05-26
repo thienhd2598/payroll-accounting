@@ -15,32 +15,43 @@ export class SalaryInformationService {
 
     async getAllSalaryInformation() {
         try {
-            const salaryInformations = await this.salaryInformationRespository.findAndCount();
+            const salaryInformations = await this.salaryInformationRespository.find({
+                relations: ['staff']
+            });
+
+            const dataSalaryInformation = salaryInformations?.map(_sl => {
+                const { staff } = _sl || {};
+
+                return {
+                    ..._sl,
+                    staff
+                }
+            })
 
             return {
                 statusCode: 200,
                 message: 'Thành công',
                 data: {
-                    salaryInformations: salaryInformations?.[0] || [],
-                    total: salaryInformations?.[1] || 0
+                    salaryInformations: dataSalaryInformation || [],
+                    total: salaryInformations?.length || 0
                 }
             }
         } catch (error) {
             throw new HttpException({
                 status: HttpStatus.INTERNAL_SERVER_ERROR,
-                error: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
+                message: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
             }, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     };
 
     async createSalaryInformation(createSalaryInformation: CreateSalaryInformationDto) {
-        const { salary_basic, work_day_standard, work_hours_standard, insurance_health_rate, insurance_social_rate, insurance_unemployment_rate, tax_personal, staffId } = createSalaryInformation;
+        const { salary_basic, work_day_standard, work_hours_standard, insurance_health_rate, insurance_social_rate, insurance_unemployment_rate, staffId } = createSalaryInformation;
 
         try {
             const staff = await this.staffRespository.findOne(staffId);
 
             const newSalaryInformation = this.salaryInformationRespository.create({
-                salary_basic, work_day_standard, work_hours_standard, insurance_health_rate, insurance_social_rate, insurance_unemployment_rate, tax_personal, staff
+                salary_basic, work_day_standard, work_hours_standard, insurance_health_rate, insurance_social_rate, insurance_unemployment_rate, staff
             });
 
             await this.salaryInformationRespository.save(newSalaryInformation);
@@ -53,14 +64,14 @@ export class SalaryInformationService {
         } catch (error) {
             throw new HttpException({
                 status: HttpStatus.INTERNAL_SERVER_ERROR,
-                error: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
+                message: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
             }, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
 
     async updateSalaryInformation(id: string, updateSalaryInformation: CreateSalaryInformationDto) {
         try {
-            const { salary_basic, work_day_standard, work_hours_standard, insurance_health_rate, insurance_social_rate, insurance_unemployment_rate, tax_personal, staffId } = updateSalaryInformation;
+            const { salary_basic, work_day_standard, work_hours_standard, insurance_health_rate, insurance_social_rate, insurance_unemployment_rate, staffId } = updateSalaryInformation;
 
             const staff = await this.staffRespository.findOne(staffId);
 
@@ -77,8 +88,7 @@ export class SalaryInformationService {
             salaryInformation.work_hours_standard = work_hours_standard;
             salaryInformation.insurance_health_rate = insurance_health_rate;
             salaryInformation.insurance_social_rate = insurance_social_rate;
-            salaryInformation.insurance_unemployment_rate = insurance_unemployment_rate;
-            salaryInformation.tax_personal = tax_personal;
+            salaryInformation.insurance_unemployment_rate = insurance_unemployment_rate;            
             salaryInformation.staff = staff;            
 
             await this.salaryInformationRespository.save(salaryInformation);
@@ -91,7 +101,7 @@ export class SalaryInformationService {
         } catch (error) {
             throw new HttpException({
                 status: HttpStatus.INTERNAL_SERVER_ERROR,
-                error: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
+                message: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
             }, HttpStatus.INTERNAL_SERVER_ERROR)
         }
 

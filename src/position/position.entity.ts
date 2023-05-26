@@ -1,5 +1,5 @@
 import { Staff } from 'src/staff/staff.entity';
-import { Column, Entity, OneToMany, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, IsNull } from 'typeorm';
 
 @Entity()
 export class Position {
@@ -9,7 +9,7 @@ export class Position {
     @Column()
     name: string;
 
-    @Column()
+    @Column({ type: 'decimal', default: 0 })    
     allowance: number;
 
     @CreateDateColumn()
