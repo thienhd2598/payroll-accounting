@@ -6,7 +6,7 @@ import { CreateStaffDto } from './dto/create-staff.dto';
 export class StaffController {
     constructor(
         private staffService: StaffService
-    ) {}
+    ) { }
 
     @Get()
     getAllStaff() {
@@ -14,10 +14,12 @@ export class StaffController {
     };
 
     @Post('/create')
-    createStaff(createStaffDto: CreateStaffDto) {
+    createStaff(
+        @Body() createStaffDto: CreateStaffDto
+    ) {        
         return this.staffService.createStaff(createStaffDto);
     };
-    
+
     @Patch('/:id')
     updateStaff(
         @Param('id') id: string,

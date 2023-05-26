@@ -1,9 +1,9 @@
-import { IsNumber, IsString, Matches, MaxLength, MinLength } from 'class-validator';
+import { IsString, Matches, MaxLength, MinLength, IsDecimal, IsNumber } from 'class-validator';
 
 export class CreatePositionDto {
   @IsString()
   name: string;
 
-  @IsNumber()  
+  @IsNumber({ maxDecimalPlaces: 2 })
   allowance: number;  
 }

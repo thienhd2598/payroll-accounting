@@ -13,21 +13,32 @@ export class AdvanceSalaryService {
     ) { }
 
     async getAllAdvanceSalary() {
-        try {
-            const advanceSalarys = await this.advanceSalaryRespository.findAndCount();
+        try {            
+            const advanceSalarys = await this.advanceSalaryRespository.find({
+                relations: ['staff']
+            });
+
+            const dataAdvanceSalarys = advanceSalarys?.map(_sl => {
+                const { staff } = _sl || {};
+
+                return {
+                    ..._sl,
+                    staff
+                }
+            })
 
             return {
                 statusCode: 200,
                 message: 'Thành công',
                 data: {
-                    advanceSalarys: advanceSalarys?.[0] || [],
-                    total: advanceSalarys?.[1] || 0
+                    advanceSalarys: dataAdvanceSalarys || [],
+                    total: advanceSalarys?.length || 0
                 }
             }
         } catch (error) {
             throw new HttpException({
                 status: HttpStatus.INTERNAL_SERVER_ERROR,
-                error: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
+                message: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
             }, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     };
@@ -52,7 +63,7 @@ export class AdvanceSalaryService {
         } catch (error) {
             throw new HttpException({
                 status: HttpStatus.INTERNAL_SERVER_ERROR,
-                error: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
+                message: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
             }, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
@@ -86,7 +97,7 @@ export class AdvanceSalaryService {
         } catch (error) {
             throw new HttpException({
                 status: HttpStatus.INTERNAL_SERVER_ERROR,
-                error: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
+                message: 'Máy chủ hiện đang bảo trì, vui lòng khởi động lại'
             }, HttpStatus.INTERNAL_SERVER_ERROR)
         }
 

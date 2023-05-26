@@ -13,16 +13,16 @@ export class TimeKeeping {
     @Column()
     year: number;
 
-    @Column()
+    @Column({ type: 'decimal', default: 0 })
     work_days: number;
 
-    @Column()
-    work_hours: number;
+    @Column({ type: 'decimal', default: 0 })
+    work_days_holiday: number;
 
-    @Column()
+    @Column({ type: 'decimal', default: 0 })
     bonus_hours: number;
 
-    @Column()
+    @Column({ type: 'decimal', default: 0 })
     bonus_hours_holiday: number;
 
     @CreateDateColumn()

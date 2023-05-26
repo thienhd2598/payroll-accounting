@@ -7,26 +7,23 @@ export class SalaryInformation {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column()
+    @Column({ type: 'decimal', default: 0 })
     salary_basic: number;
 
-    @Column()
+    @Column({ type: 'decimal', default: 0 })
     work_hours_standard: number;
 
-    @Column()
+    @Column({ type: 'decimal', default: 0 })
     work_day_standard: number;
 
-    @Column()
+    @Column({ type: 'decimal', default: 0 })
     insurance_social_rate: number;
 
-    @Column()
+    @Column({ type: 'decimal', default: 0 })
     insurance_health_rate: number;
 
-    @Column()
+    @Column({ type: 'decimal', default: 0 })
     insurance_unemployment_rate: number;
-
-    @Column()
-    tax_personal: number;
 
     @CreateDateColumn()
     created_at: Date;

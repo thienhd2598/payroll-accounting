@@ -6,18 +6,20 @@ import { CreateSalaryInformationDto } from './dto/create-salary-information.dto'
 export class SalaryInformationController {
     constructor(
         private salaryInformationService: SalaryInformationService
-    ) {}
+    ) { }
 
     @Get()
-    getAllSalaryInformation() {
+    getAllSalaryInformation() {        
         return this.salaryInformationService.getAllSalaryInformation();
     };
 
     @Post('/create')
-    createSalaryInformation(createSalaryInformationDto: CreateSalaryInformationDto) {
+    createSalaryInformation(
+        @Body() createSalaryInformationDto: CreateSalaryInformationDto
+    ) {
         return this.salaryInformationService.createSalaryInformation(createSalaryInformationDto);
     };
-    
+
     @Patch('/:id')
     updateSalaryInformation(
         @Param('id') id: string,

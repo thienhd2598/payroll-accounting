@@ -17,10 +17,7 @@ export class CreateSalaryInformationDto {
     insurance_health_rate: number;
     
     @IsNumber()
-    insurance_unemployment_rate: number;
-    
-    @IsNumber()
-    tax_personal: number;
+    insurance_unemployment_rate: number;    
 
     @IsString()
     staffId: string;   

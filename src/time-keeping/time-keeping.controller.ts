@@ -6,7 +6,7 @@ import { TimeKeepingDto } from './dto/time-keeping.dto';
 export class TimeKeepingController {
     constructor(
         private timeKeepingService: TimeKeepingService
-    ) {}
+    ) { }
 
     @Get()
     getAllTimeKeeping() {
@@ -14,10 +14,12 @@ export class TimeKeepingController {
     };
 
     @Post('/create')
-    createTimeKeeping(timeKeepingDto: TimeKeepingDto) {
+    createTimeKeeping(
+        @Body() timeKeepingDto: TimeKeepingDto
+    ) {
         return this.timeKeepingService.createTimeKeeping(timeKeepingDto);
     };
-    
+
     @Patch('/:id')
     updateTimeKeeping(
         @Param('id') id: string,
