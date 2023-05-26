@@ -31,7 +31,7 @@ export class SalaryInformation {
     @UpdateDateColumn()
     updated_at: Date;
 
-    @OneToOne((_type) => Staff, (staff) => staff.salary_information, { eager: false })    
-    @JoinColumn()
+    @ManyToOne((_type) => Staff, (staff) => staff.salary_information, { eager: false })
+    @Exclude({ toPlainOnly: true })
     staff: Staff
 }

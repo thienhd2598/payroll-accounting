@@ -48,8 +48,8 @@ export class Staff {
     @OneToMany((_type) => TimeKeeping, (tk) => tk.staff, { eager: true })
     time_keeping: TimeKeeping;
 
-    @OneToOne((_type) => SalaryInformation, (si) => si.staff, { eager: true })    
-    @JoinColumn()
+    @OneToMany((_type) => SalaryInformation, (si) => si.staff, { eager: true })        
+    @Exclude({ toPlainOnly: true })
     salary_information: SalaryInformation;
 
     @CreateDateColumn()
