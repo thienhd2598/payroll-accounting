@@ -102,7 +102,7 @@ export class StaffService {
             );
 
             const salaryTotal = Math.round(salary_current + salary_bonus - salary_diff);
-            
+
             return {
                 statusCode: 200,
                 message: `Tính lương nhân viên ${name} tháng ${month} năm ${year} thành công`,
@@ -114,6 +114,7 @@ export class StaffService {
                     work_days_holiday,
                     bonus_hours,
                     bonus_hours_holiday,
+                    price: Number(price || 0),
                     salary_bonus,
                     allowance: Math.round((Number(salary_basic) * allowance) / 100),
                     insurance_health_rate: Math.round((Number(salary_basic) * Number(insurance_health_rate)) / 100),
@@ -123,6 +124,35 @@ export class StaffService {
                     salary_diff,
                     salaryTotal
                 }
+            }
+        } catch (error) {
+            return {
+                statusCode: 500,
+                message: `Không tìm thấy bảng chấm công tháng ${month} năm ${year} của nhân viên, xin vui lòng thử lại!`
+            }
+        }
+    }
+
+    async payrollAll({ month, year }: { month: number, year: number }) {
+        try {
+            const staffs: any = await this.staffRespository.find();
+            console.log({ staffs });
+            const dataAll = await Promise.all(staffs?.map(
+                _staff => this.payroll({
+                    month,
+                    year,
+                    staffId: _staff.id
+                })
+            ));
+
+            const dataFilter = dataAll
+                ?.filter((_data: any) => _data?.statusCode == 200)
+                ?.map((_data: any) => _data?.data);
+            
+            return {
+                statusCode: 200,
+                message: `Tính lương nhân viên tháng ${month} năm ${year} thành công`,
+                data: dataFilter
             }
         } catch (error) {
             return {
