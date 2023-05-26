@@ -27,6 +27,13 @@ export class StaffController {
         return this.staffService.payroll(body);
     };
 
+    @Post('/payroll-all')
+    payrollAllStaff(
+        @Body() body: { month: number, year: number }
+    ) {        
+        return this.staffService.payrollAll(body);
+    };
+
     @Patch('/:id')
     updateStaff(
         @Param('id') id: string,
