@@ -20,6 +20,13 @@ export class StaffController {
         return this.staffService.createStaff(createStaffDto);
     };
 
+    @Post('/payroll')
+    payrollStaff(
+        @Body() body: { month: number, year: number, staffId: string }
+    ) {        
+        return this.staffService.payroll(body);
+    };
+
     @Patch('/:id')
     updateStaff(
         @Param('id') id: string,
